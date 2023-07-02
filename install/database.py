@@ -1,10 +1,13 @@
 import os
+from pathlib import Path
 import sqlite3
 from sqlite3 import Error
 import pandas as pd
 
 import dotenv
 import requests
+
+from src.utils import get_project_root
 
 dotenv.load_dotenv()
 
@@ -29,9 +32,14 @@ def create_connection():
 
 def download_database():
     # download the data from the internet
-    os.mkdir(DATA_FOLDER)
+    data_folder = get_project_root() / DATA_FOLDER
+    data_file = 'questions.csv'
+    if os.path.exists(f'{data_folder}/{data_file}'):
+        return True
+
+    os.mkdir(data_folder)
     r = requests.get(QUESTION_DATABASE, allow_redirects=True)
-    open(f'{DATA_FOLDER}/questions.csv', 'wb').write(r.content)
+    open(f'{data_folder}/{data_file}', 'wb').write(r.content)
 
 
 def create_database():

@@ -9,6 +9,7 @@ import requests
 dotenv.load_dotenv()
 
 QUESTION_DATABASE = os.environ.get('QUESTION_DATABASE')
+DATA_FOLDER = os.environ.get('DATA_FOLDER')
 
 
 def create_connection():
@@ -28,8 +29,9 @@ def create_connection():
 
 def download_database():
     # download the data from the internet
+    os.mkdir(DATA_FOLDER)
     r = requests.get(QUESTION_DATABASE, allow_redirects=True)
-    open('questions.csv', 'wb').write(r.content)
+    open(f'{DATA_FOLDER}/questions.csv', 'wb').write(r.content)
 
 
 def create_database():
@@ -38,7 +40,7 @@ def create_database():
     """
     conn = None
     try:
-        conn = sqlite3.connect('questions.db')
+        conn = sqlite3.connect('./data/questions.db')
         print(sqlite3.version)
     except Error as e:
         print(e)

@@ -1,10 +1,9 @@
 import os
 import csv
-import pytest
 
-from install.database import download_database, DATA_FOLDER, create_database, connect, create_tables, \
-    count_rows, populate_database, restructure_db, disconnect, users, create_users, DATA_FILE
-from src.utils import get_project_root
+from install.database import download_database, create_database, create_tables, \
+    count_rows, populate_database, restructure_db, create_users
+from app.utils import connect, disconnect, DATA_FOLDER, DATA_FILE, DATA_DB, users
 
 
 class TestInstall:
@@ -27,7 +26,7 @@ class TestInstall:
         """
         create_database()
 
-        assert os.path.exists(f'{DATA_FOLDER}/questions.db')
+        assert os.path.exists(f'{DATA_FOLDER}/{DATA_DB}')
 
     def test_tables_exists(self):
         """ test that the tables are created

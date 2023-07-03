@@ -1,54 +1,10 @@
 import os
-from hashlib import sha1
 import sqlite3
-from sqlite3 import Error
 import pandas as pd
-
-import dotenv
 import requests
 
-from src.utils import get_project_root
-
-dotenv.load_dotenv()
-
-QUESTION_DATABASE = os.environ.get('QUESTION_DATABASE')
-DATA_FOLDER = get_project_root() / os.environ.get('DATA_FOLDER')
-DATA_FILE = os.environ.get('DATA_FILE')
-DATA_DB = os.environ.get('DATA_DB')
-SALT_PASSWORD = os.environ.get('SALT_PASSWORD')
-
-users = [
-    {'name': 'alice', 'password': 'wonderland', 'is_admin': False},
-    {'name': 'bob', 'password': 'builder', 'is_admin': False},
-    {'name': 'clementine', 'password': 'mandarine', 'is_admin': False},
-    {'name': 'admin', 'password': '4dm1N', 'is_admin': True}
-]
-
-
-def connect():
-    """ create a database connection to a database that resides
-        in the memory
-    """
-    cursor = None
-    conn = None
-    try:
-        conn = sqlite3.connect(f'{DATA_FOLDER}/questions.db')
-    except Error as e:
-        print(e)
-
-    if conn:
-        cursor = conn.cursor()
-
-    return conn, cursor
-
-
-def disconnect(conn, cursor):
-    """ disconnect from the database
-    """
-    if cursor:
-        cursor.close()
-    if conn:
-        conn.close()
+from app.utils import get_project_root, connect, disconnect, QUESTION_DATABASE, DATA_FOLDER, DATA_FILE, \
+    hash_password, users
 
 
 def download_database():
@@ -68,7 +24,7 @@ def create_database():
     cursor = None
     try:
         conn, cursor = connect()
-    except Error as e:
+    except sqlite3.Error as e:
         print(e)
     finally:
         disconnect(conn, cursor)
@@ -189,7 +145,7 @@ def create_users():
     try:
         for user in users:
             cursor.execute(f"INSERT INTO main.users(user_name, user_password, is_admin, user_email) "
-                           f"VALUES ('{user['name']}', '{sha1((SALT_PASSWORD + user['password']).encode())}', "
+                           f"VALUES ('{user['name']}', '{hash_password(user['password'])}', "
                            f"{user['is_admin']}, '{user['name'] + '@email.com'}');")
         conn.commit()
     except sqlite3.Error as e:

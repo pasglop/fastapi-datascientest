@@ -1,7 +1,7 @@
 create table categories
 (
-    id   integer      not null
+    id   integer not null
         primary key autoincrement,
-    name varchar(255) not null
+    name TEXT    not null
 );
 

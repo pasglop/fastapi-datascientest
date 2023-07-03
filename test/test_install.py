@@ -33,10 +33,10 @@ class TestInstall:
         """ test that the tables are created
         """
         tables = []
-        list_expected_tables = ['questions', 'categories', 'users', 'answers', 'user_answers']
+        list_expected_tables = ['questions', 'categories', 'subjects', 'users', 'answers', 'user_answers']
         if create_tables() is True:
             conn, cursor = connect()
-            cursor.execute("SELECT name FROM main.sqlite_master  WHERE type='table';")
+            cursor.execute("SELECT name FROM main.sqlite_master WHERE type='table';")
 
             # Fetch all results of the query
             tables = [table[0] for table in cursor.fetchall()]

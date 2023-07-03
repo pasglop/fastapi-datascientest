@@ -7,7 +7,7 @@ create table answers
         constraint answers_questions_question_id_fk
             references questions,
     answer_text TEXT                                not null,
-    is_correct  boolean default false not null,
+    is_correct  boolean   default false             not null,
     created_at  TIMESTAMP default CURRENT_TIMESTAMP not null,
     updated_at  TIMESTAMP default CURRENT_TIMESTAMP not null
 );

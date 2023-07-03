@@ -143,8 +143,12 @@ def restructure_db():
         INSERT INTO main.categories(name)
         SELECT DISTINCT use FROM main.questions_raw;
         
-        INSERT INTO main.questions(title, categoryId, remark) 
-        SELECT question, (SELECT id FROM main.categories WHERE name = use), remark FROM main.questions_raw;
+        INSERT INTO main.subjects(name)
+        SELECT DISTINCT subject FROM main.questions_raw;
+        
+        INSERT INTO main.questions(title, category_id, subject_id, remark) 
+        SELECT question, (SELECT id FROM main.categories WHERE name = use), 
+        (SELECT id FROM main.subjects WHERE name = subject), remark FROM main.questions_raw;
         
         INSERT INTO main.answers(question_id, answer_text, is_correct)
         SELECT question_id, answer, COALESCE(is_correct, 0)

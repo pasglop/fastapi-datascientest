@@ -53,13 +53,12 @@ def disconnect(conn, cursor):
 
 def download_database():
     # download the data from the internet
-    data_file = 'questions.csv'
-    if os.path.exists(f'{DATA_FOLDER}/{data_file}'):
+    if os.path.exists(f'{DATA_FOLDER}/{DATA_FILE}'):
         return True
 
     os.mkdir(DATA_FOLDER)
     r = requests.get(QUESTION_DATABASE, allow_redirects=True)
-    open(f'{DATA_FOLDER}/{data_file}', 'wb').write(r.content)
+    open(f'{DATA_FOLDER}/{DATA_FILE}', 'wb').write(r.content)
 
 
 def create_database():
@@ -122,7 +121,7 @@ def populate_database():
         return True
 
     try:
-        df = pd.read_csv(f'{DATA_FOLDER}/questions.csv', sep=',', encoding='utf-8', header=0)
+        df = pd.read_csv(f'{DATA_FOLDER}/{DATA_FILE}', sep=',', encoding='utf-8', header=0)
         df.to_sql('questions_raw', conn)
     except ValueError as e:
         if 'already exists' not in str(e):

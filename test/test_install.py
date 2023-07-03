@@ -3,7 +3,7 @@ import csv
 import pytest
 
 from install.database import download_database, DATA_FOLDER, create_database, connect, create_tables, \
-    count_rows, populate_database, restructure_db, disconnect, users, create_users
+    count_rows, populate_database, restructure_db, disconnect, users, create_users, DATA_FILE
 from src.utils import get_project_root
 
 
@@ -20,8 +20,7 @@ class TestInstall:
     def test_data_is_downloaded(self):
         """ test that the data is downloaded from the internet
         """
-        data_file = 'questions.csv'
-        assert os.path.exists(f'{DATA_FOLDER}/{data_file}')
+        assert os.path.exists(f'{DATA_FOLDER}/{DATA_FILE}')
 
     def test_database_file_is_created(self):
         """ test that the database file is created
@@ -52,7 +51,7 @@ class TestInstall:
 
         populate_database()
         # read original csv file and count lines
-        with open(f'{DATA_FOLDER}/questions.csv', 'r') as f:
+        with open(f'{DATA_FOLDER}/{DATA_FILE}', 'r') as f:
             reader = csv.reader(f, delimiter=',', quotechar='"')
             len_file = sum(1 for row in reader)-1  # remove header line
 

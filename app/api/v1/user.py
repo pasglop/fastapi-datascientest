@@ -7,7 +7,7 @@ class UserSchema(BaseModel):
     fullname: str = Field(...)
     email: EmailStr = Field(...)
     password: str = Field(...)
-    is_admin: bool = False
+    is_admin: bool = Field(...)
 
     class Config:
         schema_extra = {

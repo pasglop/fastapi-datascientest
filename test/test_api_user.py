@@ -7,6 +7,7 @@ client = TestClient(app)
 
 API_URL = "http://localhost:8081"
 
+
 class TestAPIUser:
 
     def test_read_main(self):
@@ -41,6 +42,7 @@ class TestAPIUser:
         })
         assert response.status_code == 200
         assert response.json()['access_token'] is not None
+
     def test_admin_connect_fail(self):
         """Test the admin connection to the API"""
         response = client.post(f"{API_URL}/admin/login", json={
@@ -49,4 +51,3 @@ class TestAPIUser:
         })
         assert response.status_code == 200 \
                and response.json() == {"error": "Wrong login details!"}
-

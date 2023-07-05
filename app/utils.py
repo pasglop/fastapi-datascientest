@@ -26,6 +26,8 @@ SALT_PASSWORD = os.environ.get('SALT_PASSWORD')
 JWT_SECRET = os.environ.get('JWT_SECRET')
 JWT_ALGORITHM = os.environ.get('JWT_ALGORITHM')
 
+API_URL = os.environ.get('API_URL')
+
 
 def connect():
     """ create a database connection to a database that resides

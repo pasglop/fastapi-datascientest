@@ -1,4 +1,4 @@
-from app.api.v1.quizz import CategorySchema, SubjectsSchema
+from app.api.v1.quizz import CategorySchema, SubjectsSchema, QuestionSetSchema
 from app.utils import disconnect, connect, split_str, sql_data_to_list_of_dicts
 from pydantic import BaseModel, Field, validator
 from typing import List
@@ -37,3 +37,9 @@ class Question:
         questions = self.cursor.fetchall()
 
         return questions
+
+    def create_question(self, data: QuestionSetSchema):
+        # then insert question
+
+        # then insert answers
+        pass

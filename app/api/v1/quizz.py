@@ -5,7 +5,6 @@ from pydantic.fields import Field
 from app.utils import sql_data_to_list_of_dicts
 
 
-
 class CategorySchema(BaseModel):
     id: int = Field(...)
     name: str
@@ -116,8 +115,7 @@ class Quizz:
     def __init__(self):
         self.questions = None
 
-
-    def get_question(self, QuestionSetSchema) -> list[QuestionSchema]:
+    def get_question_set(self, QuestionSetSchema) -> list[QuestionSchema]:
         category = QuestionSetSchema.category
         subjects = QuestionSetSchema.subjects
         limit = QuestionSetSchema.limit
@@ -141,15 +139,13 @@ class Quizz:
         query += f" LIMIT {limit}"
         res = sql_data_to_list_of_dicts(query)
         for question in res:
-            print(question)
             question["category"] = CategorySchema.parse_raw(question["category"])
             question["subject"] = SubjectItemSchema.parse_raw(question["subject"])
-            question["answers"] = self.get_answer(question["question_id"])
+            question["answers"] = self.get_answers(question["question_id"])
         self.questions = [QuestionSchema(**x) for x in res]
         return self.questions
 
-
-    def get_answer(self, question_id: int) -> list[QuestionAnswerSchema]:
+    def get_answers(self, question_id: int) -> list[QuestionAnswerSchema]:
         query = f"SELECT answer_id, answer_text, is_correct, {question_id} as question_id " \
                 f"FROM answers WHERE question_id = {question_id}"
         res = sql_data_to_list_of_dicts(query)

@@ -1,3 +1,4 @@
+import pytest
 from fastapi.testclient import TestClient
 from app.api.v1.api import app
 from app.api.v1.auth import signJWT

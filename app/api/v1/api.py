@@ -1,16 +1,27 @@
+from urllib.request import Request
+
 from fastapi import FastAPI, Body, Depends
+from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
+from starlette import status
+from starlette.responses import JSONResponse
+
 from app.api.v1.auth import signJWT
 from app.api.v1.auth_bearer import JWTBearer
 from app.api.v1.questions import Question
-from app.api.v1.quizz import Quizz, QuestionSetSchema
-from app.api.v1.user import UserSchema, UserLoginSchema, check_user, check_admin
+from app.api.v1.quizz import Quizz
+from app.api.v1.models import QuestionSchema, QuestionSetSchema, CreateQuestionSchema
+from app.api.v1.user import UserLoginSchema, check_user, check_admin
 
 app = FastAPI()
 
 
-@app.get("/", tags=["root"])
-async def read_root() -> dict:
-    return {"msg": "Hello World"}
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content=jsonable_encoder({"detail": exc.errors(), "body": exc.body}),
+    )
 
 
 @app.get("/status", tags=["root"])
@@ -71,9 +82,19 @@ async def generate_quizz(p: QuestionSetSchema):
 
 
 @app.post("/questions", dependencies=[Depends(JWTBearer(admin=True))], tags=["questions"])
-async def create_question(data: QuestionSetSchema = Body(...)):
+async def create_question(data: CreateQuestionSchema = Body(...)):
     q = Question()
     q.create_question(data)
     return {
         "data": "Question created"
+    }
+
+
+@app.delete("/questions/{id}", dependencies=[Depends(JWTBearer(admin=True))], tags=["questions"])
+async def delete_question(id: int):
+    q = Question()
+    q.delete_question(id)
+    q.delete_answers(id)
+    return {
+        "data": "Question deleted"
     }

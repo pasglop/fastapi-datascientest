@@ -1,4 +1,5 @@
-from app.api.v1.quizz import Quizz, QuestionSchema, QuestionSetSchema, QuestionAnswerSchema
+from app.api.v1.quizz import Quizz
+from app.api.v1.models import QuestionAnswerSchema, QuestionSchema, QuestionSetSchema
 from app.utils import API_URL
 from fixtures import log_user
 

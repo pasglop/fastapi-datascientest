@@ -36,7 +36,8 @@ def connect():
     cursor = None
     conn = None
     try:
-        conn = sqlite3.connect(f'{DATA_FOLDER}/{DATA_DB}')
+        sqlite3.register_converter('DATETIME', sqlite3.converters['TIMESTAMP'])
+        conn = sqlite3.connect(f'{DATA_FOLDER}/{DATA_DB}', detect_types=sqlite3.PARSE_DECLTYPES)
     except Error as e:
         print(e)
 

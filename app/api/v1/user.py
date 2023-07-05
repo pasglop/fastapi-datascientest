@@ -12,10 +12,9 @@ class UserSchema(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "fullname": "Toto TITI",
-                "email": "toto@email.com",
-                "password": "weakpassword",
-                "is_admin": False
+                "fullname": "alice",
+                "email": "alice@email.com",
+                "password": "wonderland"
             }
         }
 
@@ -23,14 +22,13 @@ class UserSchema(BaseModel):
 class UserLoginSchema(BaseModel):
     email: EmailStr = Field(...)
     password: str = Field(...)
-    is_admin: bool = False
+    is_admin: bool = False # This field is not required
 
     class Config:
         schema_extra = {
             "example": {
-                "email": "toto@email.com",
-                "password": "weakpassword",
-                "is_admin": False
+                "email": "admin@email.com",
+                "password": "4dm1N"
             }
         }
 

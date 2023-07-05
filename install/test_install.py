@@ -1,9 +1,14 @@
 import os
 import csv
+from pathlib import Path
+import sys
+
+path_root = Path(__file__).parents[1]
+sys.path.append(str(path_root))
 
 from install.database import download_database, create_database, create_tables, \
     count_rows, populate_database, restructure_db, create_users
-from app.utils import connect, disconnect, DATA_FOLDER, DATA_FILE, DATA_DB, users
+from app.api.utils import connect, disconnect, DATA_FOLDER, DATA_FILE, DATA_DB, users
 
 
 class TestInstall:
@@ -46,13 +51,14 @@ class TestInstall:
         """
 
         if count_rows('questions') > 0 and count_rows('answers') > 0:
-            return True  # database is already populated
+            assert True  # database is already populated
+            return
 
         populate_database()
         # read original csv file and count lines
         with open(f'{DATA_FOLDER}/{DATA_FILE}', 'r') as f:
             reader = csv.reader(f, delimiter=',', quotechar='"')
-            len_file = sum(1 for row in reader)-1  # remove header line
+            len_file = sum(1 for row in reader) - 1  # remove header line
 
         # read database and count lines
         len_table = count_rows('questions_raw')

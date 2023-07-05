@@ -1,5 +1,5 @@
-from app.api.v1.models import CategorySchema, QuestionAnswerSchema, SubjectItemSchema, QuestionSchema
-from app.utils import sql_data_to_list_of_dicts
+from .models import CategorySchema, QuestionAnswerSchema, SubjectItemSchema, QuestionSchema
+from ..utils import sql_data_to_list_of_dicts
 
 
 class Quizz:

@@ -1,7 +1,14 @@
+from pathlib import Path
+import sys
+
+from fixtures import log_user, log_admin
+
+path_root = Path(__file__).parents[1]
+sys.path.append(str(path_root))
+
 from app.api.v1.quizz import Quizz
 from app.api.v1.models import QuestionAnswerSchema, QuestionSchema, QuestionSetSchema
-from app.utils import API_URL
-from fixtures import log_user
+from app.api.utils import API_URL
 
 
 class TestQuizz:
@@ -61,4 +68,3 @@ class TestQuizz:
         assert response.status_code == 200
         check_type = QuestionSchema(**quizz_res[0])
         assert isinstance(check_type, QuestionSchema)
-

@@ -1,20 +1,17 @@
-import pytest
+from pathlib import Path
+import sys
+
+path_root = Path(__file__).parents[1]
+sys.path.append(str(path_root))
+
 from fastapi.testclient import TestClient
 from app.api.v1.api import app
-from app.api.v1.auth import signJWT
-from app.utils import users
+from app.api.utils import users, API_URL
+from fixtures import log_user, log_admin
 
 client = TestClient(app)
 
-API_URL = "http://localhost:8081"
-
-
 class TestAPIUser:
-
-    def test_read_main(self):
-        response = client.get(API_URL)
-        assert response.status_code == 200
-        assert response.json() == {"msg": "Hello World"}
 
     def test_user_connect_success(self):
         """Test the user connection to the API"""

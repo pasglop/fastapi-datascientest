@@ -2,7 +2,7 @@ import time
 from typing import Dict
 import jwt
 
-from app.utils import JWT_SECRET, JWT_ALGORITHM
+from ..utils import JWT_SECRET, JWT_ALGORITHM
 
 
 def token_response(token: str):

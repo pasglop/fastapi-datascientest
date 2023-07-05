@@ -3,11 +3,11 @@ import random
 import pytest
 from fastapi.testclient import TestClient
 from app.api.v1.api import app
-from app.utils import API_URL, users
+from app.api.utils import API_URL, users
 
 
 @pytest.fixture()
-def log_admin(scope="module" ):
+def log_admin(scope="module"):
     """Login as admin and get a valid token"""
     client = TestClient(app)
     admin = list(filter(lambda test_list: test_list['is_admin'] is True, users))[0]

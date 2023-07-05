@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field, EmailStr
 
-from app.utils import connect, hash_password
+from ..utils import connect, hash_password
 
 
 class UserSchema(BaseModel):

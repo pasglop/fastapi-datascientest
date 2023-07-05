@@ -13,7 +13,7 @@ dotenv.load_dotenv()
 
 
 def get_project_root() -> Path:
-    return Path(__file__).parent.parent
+    return Path(__file__).parent.parent.parent
 
 
 QUESTION_DATABASE = os.environ.get('QUESTION_DATABASE')
@@ -26,7 +26,7 @@ SALT_PASSWORD = os.environ.get('SALT_PASSWORD')
 JWT_SECRET = os.environ.get('JWT_SECRET')
 JWT_ALGORITHM = os.environ.get('JWT_ALGORITHM')
 
-API_URL = os.environ.get('API_URL')
+API_URL = 'http://' + os.environ.get('API_HOST') + ':' + str(os.environ.get('API_PORT'))
 
 
 def connect():

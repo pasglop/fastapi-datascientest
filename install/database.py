@@ -2,8 +2,13 @@ import os
 import sqlite3
 import pandas as pd
 import requests
+from pathlib import Path
+import sys
 
-from app.utils import get_project_root, connect, disconnect, QUESTION_DATABASE, DATA_FOLDER, DATA_FILE, \
+path_root = Path(__file__).parents[1]
+sys.path.append(str(path_root))
+
+from app.api.utils import get_project_root, connect, disconnect, QUESTION_DATABASE, DATA_FOLDER, DATA_FILE, \
     hash_password, users
 
 
@@ -12,7 +17,8 @@ def download_database():
     if os.path.exists(f'{DATA_FOLDER}/{DATA_FILE}'):
         return True
 
-    os.mkdir(DATA_FOLDER)
+    if not os.path.exists(DATA_FOLDER):
+        os.makedirs(DATA_FOLDER)
     r = requests.get(QUESTION_DATABASE, allow_redirects=True)
     open(f'{DATA_FOLDER}/{DATA_FILE}', 'wb').write(r.content)
 
@@ -162,4 +168,3 @@ if __name__ == '__main__':
     populate_database()
     restructure_db()
     create_users()
-

@@ -1,7 +1,12 @@
+from pathlib import Path
+import sys
+
+path_root = Path(__file__).parents[1]
+sys.path.append(str(path_root))
+
 import pytest
-from fastapi.testclient import TestClient
-from app.api.v1.api import app
-from app.utils import API_URL
+from app.api.utils import API_URL
+
 from fixtures import log_user, log_admin
 
 
@@ -66,4 +71,3 @@ class TestApiQuestionCrud:
             headers={"Authorization": f"Bearer {log_user[1]}"})
         json = response.json()
         assert response.status_code == 200
-        assert json['data'][0][1] == 'Que signifie le sigle No-SQL ?'

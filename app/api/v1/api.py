@@ -6,12 +6,12 @@ from fastapi.exceptions import RequestValidationError
 from starlette import status
 from starlette.responses import JSONResponse
 
-from app.api.v1.auth import signJWT
-from app.api.v1.auth_bearer import JWTBearer
-from app.api.v1.questions import Question
-from app.api.v1.quizz import Quizz
-from app.api.v1.models import QuestionSchema, QuestionSetSchema, CreateQuestionSchema
-from app.api.v1.user import UserLoginSchema, check_user, check_admin
+from .auth import signJWT
+from .auth_bearer import JWTBearer
+from .questions import Question
+from .quizz import Quizz
+from .models import QuestionSchema, QuestionSetSchema, CreateQuestionSchema
+from .user import UserLoginSchema, check_user, check_admin
 
 app = FastAPI()
 

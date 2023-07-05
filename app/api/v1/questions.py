@@ -1,9 +1,9 @@
 import datetime
 import sqlite3
 
-from app.api.v1.models import CategorySchema, SubjectsSchema, QuestionSchema, QuestionTableSchema, CreateQuestionSchema, \
+from .models import CategorySchema, SubjectsSchema, CreateQuestionSchema, \
     CreateAnswerSchema
-from app.utils import connect
+from ..utils import connect
 
 
 class Question:

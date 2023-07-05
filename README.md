@@ -4,7 +4,7 @@ Pour cette évaluation, nous allons nous placer dans la peau d'une entreprise qu
 
 ## Modèle de données
 L'application utilise une base de données SQLite. Le modèle de données est le suivant :
-![DS - fastapi.png](data%2FDS-fastapi.png)
+![DS - fastapi.png](DS-fastapi.png)
 
 ## Installation
 ```bash
